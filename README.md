@@ -23,6 +23,20 @@ yarn
 ## Usage
 
 ```bash
+npm run start
+```
+
+or
+
+```bash
+yarn start
+```
+
+The website is available at `localhost:9000`
+
+Alternatively,
+
+```bash
 npm run build
 ```
 
