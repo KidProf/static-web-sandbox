@@ -7,6 +7,7 @@ var changed = require('gulp-changed');
 var less = require('gulp-less');
 var eslint = require("gulp-eslint");
 var imagemin = require("gulp-imagemin");
+var server = require('gulp-webserver');
 
 //plugins of plugins
 var LessAutoprefix = require('less-plugin-autoprefix');
@@ -74,6 +75,15 @@ gulp.task('fontcopy',function(){
   .pipe(gulp.dest("docs/fonts"));
 });
 
+gulp.task('serve', function() {
+  gulp.src('docs')	// <-- your app folder
+    .pipe(server({
+      livereload: true,
+      open: true,
+      port: 9000	// set a port to avoid conflicts with other local apps
+    }));
+});
 
+gulp.task('build',gulp.parallel('js','pug','styling','imagecopy','fontcopy'));
 
-gulp.task('build',gulp.series('js','pug','styling','imagecopy','fontcopy'));
+gulp.task('start',gulp.series('build','serve'));
