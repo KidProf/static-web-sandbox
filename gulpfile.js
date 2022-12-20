@@ -58,7 +58,13 @@ gulp.task('js',function(){
 gulp.task('imagemin',function(){
   return gulp.src("app/images/**/*")
   .pipe(changed("docs/images"))//pipe files only if changed 
-  .pipe(imagemin())
+  .pipe(imagemin([
+    imagemin.mozjpeg({quality: 75, progressive: true}),
+	  imagemin.optipng({optimizationLevel: 5}),
+  ],{
+    verbose: true
+  }
+  ))
   .pipe(gulp.dest("docs/images"));
 });
 
@@ -84,6 +90,7 @@ gulp.task('serve', function() {
     }));
 });
 
-gulp.task('build',gulp.parallel('js','pug','styling','imagecopy','fontcopy'));
+//! replace imagemin with imagecopy if imagemin is too slow or got stuck
+gulp.task('build',gulp.parallel('js','pug','styling','imagemin','fontcopy'));
 
 gulp.task('start',gulp.series('build','serve'));
